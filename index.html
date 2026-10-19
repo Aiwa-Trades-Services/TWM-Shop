@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TWM Shop - Official Price List</title>
+    <title>TWM Shop - Official Price Catalog</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -31,7 +31,7 @@
                 </div>
                 <div>
                     <h1 class="font-bold text-lg text-emerald-400 leading-tight">TWM Shop</h1>
-                    <p class="text-xs text-slate-400">Mosque Price List & Offers</p>
+                    <p class="text-xs text-slate-400">Mosque Price & Product Checker</p>
                 </div>
             </div>
             <span class="bg-emerald-950/80 text-emerald-400 text-xs px-2.5 py-1 rounded-full border border-emerald-800/50 font-medium">
@@ -55,10 +55,33 @@
             </div>
         </div>
 
+        <!-- Scanner Mode Cards (With Coming Soon Badges) -->
+        <div class="grid grid-cols-2 gap-3">
+            <button onclick="showComingSoon('Barcode Scanner')" class="bg-gradient-to-br from-slate-800 to-slate-800/60 border border-slate-700/80 rounded-xl p-3 flex flex-col items-center justify-center text-center gap-1.5 hover:border-emerald-500/50 transition-all active:scale-95 shadow-md relative overflow-hidden group">
+                <span class="absolute top-1.5 right-1.5 bg-amber-500/20 text-amber-300 text-[9px] font-semibold px-2 py-0.5 rounded-full border border-amber-500/30">
+                    Coming Soon
+                </span>
+                <div class="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg mt-2">
+                    <i class="fa-solid fa-barcode"></i>
+                </div>
+                <span class="text-xs font-semibold text-slate-200">Scan Barcode</span>
+            </button>
+
+            <button onclick="showComingSoon('Visual AI Camera')" class="bg-gradient-to-br from-slate-800 to-slate-800/60 border border-slate-700/80 rounded-xl p-3 flex flex-col items-center justify-center text-center gap-1.5 hover:border-blue-500/50 transition-all active:scale-95 shadow-md relative overflow-hidden group">
+                <span class="absolute top-1.5 right-1.5 bg-amber-500/20 text-amber-300 text-[9px] font-semibold px-2 py-0.5 rounded-full border border-amber-500/30">
+                    Coming Soon
+                </span>
+                <div class="w-10 h-10 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center text-lg mt-2">
+                    <i class="fa-solid fa-camera"></i>
+                </div>
+                <span class="text-xs font-semibold text-slate-200">Snap Photo AI</span>
+            </button>
+        </div>
+
         <!-- Search Bar -->
         <div class="relative">
             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-            <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search item (e.g., Atta, Tea, Chicken)..." 
+            <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search item (e.g., Atta, Tea, Paratha, Milk)..." 
                    class="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-10 py-3 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-emerald-500 transition-colors shadow-inner">
             <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 p-2">
                 <i class="fa-solid fa-xmark"></i>
@@ -84,6 +107,24 @@
         <p class="font-medium text-slate-400">TWM Mosque Shop • Community & NGO Services</p>
         <p>Tai Wai, New Territories, Hong Kong</p>
     </footer>
+
+    <!-- Modal: Coming Soon Notice -->
+    <div id="comingSoonModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 w-full max-w-sm rounded-2xl p-6 shadow-2xl text-center space-y-4">
+            <div class="w-14 h-14 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mx-auto">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <div>
+                <h3 id="comingSoonTitle" class="text-base font-bold text-slate-100">Feature Coming Soon</h3>
+                <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                    Camera scanning is currently being calibrated for our shop tags. Please use the instant search bar or category menu to look up item prices!
+                </p>
+            </div>
+            <button onclick="closeComingSoon()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2.5 rounded-xl transition-colors">
+                Got it
+            </button>
+        </div>
+    </div>
 
     <!-- Modal: Product Details -->
     <div id="productModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-end sm:items-center justify-center p-0 sm:p-4">
@@ -258,6 +299,17 @@
             searchQuery = '';
             document.getElementById('clearSearchBtn').classList.add('hidden');
             renderList();
+        }
+
+        function showComingSoon(featureName) {
+            document.getElementById('comingSoonTitle').innerText = featureName + ' - Coming Soon';
+            document.getElementById('comingSoonModal').classList.remove('hidden');
+            document.getElementById('comingSoonModal').classList.add('flex');
+        }
+
+        function closeComingSoon() {
+            document.getElementById('comingSoonModal').classList.add('hidden');
+            document.getElementById('comingSoonModal').classList.remove('flex');
         }
 
         function showProductModal(item) {
