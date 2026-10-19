@@ -43,15 +43,42 @@
     <!-- Main Container -->
     <main class="flex-1 max-w-md w-full mx-auto p-4 flex flex-col gap-4">
 
-        <!-- Address / Location Info Banner -->
-        <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-3.5 flex items-start gap-3 shadow-md">
-            <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
-                <i class="fa-solid fa-location-dot text-base"></i>
+        <!-- Address & Contact Info Banner -->
+        <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-4 flex flex-col gap-3 shadow-md">
+            <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+                    <i class="fa-solid fa-location-dot text-base"></i>
+                </div>
+                <div class="text-xs text-slate-300 space-y-1">
+                    <p class="font-semibold text-slate-100 text-sm">TWM Mosque Shop</p>
+                    <p class="text-slate-400"><i class="fa-solid fa-map-pin text-emerald-400 mr-1.5"></i> Inside Mosque Premises, Tai Wai, Hong Kong</p>
+                    <p class="text-slate-400"><i class="fa-solid fa-heart text-rose-400 mr-1.5"></i> Non-Profit / NGO Community Venture</p>
+                </div>
             </div>
-            <div class="text-xs text-slate-300 space-y-1">
-                <p class="font-semibold text-slate-100 text-sm">TWM Mosque Shop</p>
-                <p class="text-slate-400"><i class="fa-solid fa-map-pin text-emerald-400 mr-1"></i> Inside Mosque Premises, Tai Wai, Hong Kong</p>
-                <p class="text-slate-400"><i class="fa-solid fa-heart text-rose-400 mr-1"></i> Non-Profit / NGO Community Venture</p>
+
+            <hr class="border-slate-700/60">
+
+            <!-- Contact Details & WhatsApp Payment Notice -->
+            <div class="space-y-2 text-xs">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-slate-300">
+                    <a href="tel:+85259813744" class="hover:text-emerald-400 flex items-center gap-2">
+                        <i class="fa-solid fa-phone text-emerald-400"></i> +852 5981 3744
+                    </a>
+                    <a href="mailto:taiwaimadrassa@gmail.com" class="hover:text-emerald-400 flex items-center gap-2">
+                        <i class="fa-solid fa-envelope text-emerald-400"></i> taiwaimadrassa@gmail.com
+                    </a>
+                </div>
+
+                <div class="bg-emerald-950/40 border border-emerald-800/60 rounded-xl p-3 flex items-center justify-between mt-2">
+                    <div class="space-y-0.5">
+                        <p class="text-slate-200 font-semibold text-xs">Need Online Payment or Delivery?</p>
+                        <p class="text-[11px] text-slate-400">Online payment integration in progress. Contact us directly for payment details!</p>
+                    </div>
+                    <a href="https://wa.me/85259813744?text=Assalamu%20Alaikum,%20I%20have%20an%20inquiry%20regarding%20TWM%20Shop" target="_blank" 
+                       class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 shrink-0 transition-colors shadow-sm">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -106,6 +133,7 @@
     <footer class="border-t border-slate-800 bg-slate-950 px-4 py-6 text-center text-xs text-slate-500 mt-6 space-y-2">
         <p class="font-medium text-slate-400">TWM Mosque Shop • Community & NGO Services</p>
         <p>Tai Wai, New Territories, Hong Kong</p>
+        <p><a href="mailto:taiwaimadrassa@gmail.com" class="text-emerald-500 underline">taiwaimadrassa@gmail.com</a> • <a href="tel:+85259813744" class="text-emerald-500 underline">+852 5981 3744</a></p>
     </footer>
 
     <!-- Modal: Coming Soon Notice -->
@@ -117,7 +145,7 @@
             <div>
                 <h3 id="comingSoonTitle" class="text-base font-bold text-slate-100">Feature Coming Soon</h3>
                 <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
-                    Camera scanning is currently being calibrated for our shop tags. Please use the instant search bar or category menu to look up item prices!
+                    Camera scanning is currently being calibrated for our physical product tags. Please use the instant search bar or category menu to look up item prices!
                 </p>
             </div>
             <button onclick="closeComingSoon()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2.5 rounded-xl transition-colors">
