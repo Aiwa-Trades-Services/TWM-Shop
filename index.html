@@ -37,11 +37,11 @@
         <div class="max-w-md mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-lg shadow-md shadow-emerald-900/50">
-                    <i class="fa-solid fa-store"></i>
+                    <i class="fa-solid fa-mosque"></i>
                 </div>
                 <div>
                     <h1 class="font-bold text-lg text-emerald-400 leading-tight">TWM Shop</h1>
-                    <p class="text-xs text-slate-400">Official Shop Price Checker</p>
+                    <p class="text-xs text-slate-400">Mosque Price & Product Checker</p>
                 </div>
             </div>
             <span class="bg-emerald-950/80 text-emerald-400 text-xs px-2.5 py-1 rounded-full border border-emerald-800/50 font-medium">
@@ -52,6 +52,18 @@
 
     <!-- Main Container -->
     <main class="flex-1 max-w-md w-full mx-auto p-4 flex flex-col gap-4">
+
+        <!-- Address / Location Info Banner -->
+        <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-3.5 flex items-start gap-3 shadow-md">
+            <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+                <i class="fa-solid fa-location-dot text-base"></i>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1">
+                <p class="font-semibold text-slate-100 text-sm">TWM Mosque Shop</p>
+                <p class="text-slate-400"><i class="fa-solid fa-map-pin text-emerald-400 mr-1"></i> Inside Mosque Premises, Tai Wai, Hong Kong</p>
+                <p class="text-slate-400"><i class="fa-solid fa-heart text-rose-400 mr-1"></i> Non-Profit / NGO Community Venture</p>
+            </div>
+        </div>
 
         <!-- Search Bar -->
         <div class="relative">
@@ -93,6 +105,13 @@
         <div id="itemList" class="flex flex-col gap-2.5"></div>
 
     </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-950 px-4 py-6 text-center text-xs text-slate-500 mt-6 space-y-2">
+        <p class="font-medium text-slate-400">TWM Mosque Shop • Community & NGO Services</p>
+        <p>Tai Wai, New Territories, Hong Kong</p>
+        <p class="text-[11px] text-slate-600">Scan QR Code or visit anytime for live pricing</p>
+    </footer>
 
     <!-- Modal: Barcode Scanner -->
     <div id="barcodeModal" class="fixed inset-0 bg-black/90 z-50 hidden flex-col">
