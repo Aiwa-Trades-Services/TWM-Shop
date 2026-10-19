@@ -3,25 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TWM Shop - Price & Product Scanner</title>
+    <title>TWM Shop - Official Price List</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- QuaggaJS for Barcode Scanning -->
-    <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.min.js"></script>
     <style>
         .glass-header {
-            background: rgba(15, 23, 42, 0.92);
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(12px);
-        }
-        #interactive.viewport canvas, #interactive.viewport video {
-            width: 100%;
-            height: auto;
-            border-radius: 0.75rem;
-        }
-        #interactive.viewport canvas.drawingBuffer {
-            display: none;
         }
         .tab-btn.active {
             border-bottom: 3px solid #10B981;
@@ -41,7 +31,7 @@
                 </div>
                 <div>
                     <h1 class="font-bold text-lg text-emerald-400 leading-tight">TWM Shop</h1>
-                    <p class="text-xs text-slate-400">Mosque Price & Product Checker</p>
+                    <p class="text-xs text-slate-400">Mosque Price List & Offers</p>
                 </div>
             </div>
             <span class="bg-emerald-950/80 text-emerald-400 text-xs px-2.5 py-1 rounded-full border border-emerald-800/50 font-medium">
@@ -54,7 +44,7 @@
     <main class="flex-1 max-w-md w-full mx-auto p-4 flex flex-col gap-4">
 
         <!-- Address / Location Info Banner -->
-        <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-3.5 flex items-start gap-3 shadow-md">
+        <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-3.5 flex items-start gap-3 shadow-md">
             <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
                 <i class="fa-solid fa-location-dot text-base"></i>
             </div>
@@ -68,27 +58,10 @@
         <!-- Search Bar -->
         <div class="relative">
             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-            <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search item (e.g., Atta, Tea, Paratha, Milk)..." 
-                   class="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-10 py-2.5 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-emerald-500 transition-colors">
-            <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200">
+            <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search item (e.g., Atta, Tea, Chicken)..." 
+                   class="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-10 py-3 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-emerald-500 transition-colors shadow-inner">
+            <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 p-2">
                 <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <!-- Scanner Mode Cards -->
-        <div class="grid grid-cols-2 gap-3">
-            <button onclick="openBarcodeScanner()" class="bg-gradient-to-br from-emerald-900/40 to-slate-800 border border-emerald-700/50 rounded-xl p-3 flex flex-col items-center justify-center text-center gap-2 hover:border-emerald-500 transition-all active:scale-95 shadow-md">
-                <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg">
-                    <i class="fa-solid fa-barcode"></i>
-                </div>
-                <span class="text-xs font-semibold text-emerald-200">Scan Barcode</span>
-            </button>
-
-            <button onclick="openVisualScanner()" class="bg-gradient-to-br from-blue-900/40 to-slate-800 border border-blue-700/50 rounded-xl p-3 flex flex-col items-center justify-center text-center gap-2 hover:border-blue-500 transition-all active:scale-95 shadow-md">
-                <div class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-lg">
-                    <i class="fa-solid fa-camera"></i>
-                </div>
-                <span class="text-xs font-semibold text-blue-200">Snap Photo AI</span>
             </button>
         </div>
 
@@ -110,57 +83,9 @@
     <footer class="border-t border-slate-800 bg-slate-950 px-4 py-6 text-center text-xs text-slate-500 mt-6 space-y-2">
         <p class="font-medium text-slate-400">TWM Mosque Shop • Community & NGO Services</p>
         <p>Tai Wai, New Territories, Hong Kong</p>
-        <p class="text-[11px] text-slate-600">Scan QR Code or visit anytime for live pricing</p>
     </footer>
 
-    <!-- Modal: Barcode Scanner -->
-    <div id="barcodeModal" class="fixed inset-0 bg-black/90 z-50 hidden flex-col">
-        <div class="p-4 flex items-center justify-between bg-slate-900 border-b border-slate-800">
-            <h3 class="font-semibold text-emerald-400 text-sm flex items-center gap-2">
-                <i class="fa-solid fa-barcode"></i> Point Camera at Product Barcode
-            </h3>
-            <button onclick="closeBarcodeScanner()" class="text-slate-400 hover:text-white p-1">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-        </div>
-        <div class="flex-1 flex flex-col justify-center items-center p-4 relative">
-            <div id="interactive" class="viewport w-full max-w-sm rounded-xl overflow-hidden border-2 border-emerald-500/50 shadow-2xl relative"></div>
-            <p class="text-xs text-slate-400 mt-4 text-center">Center the barcode inside the frame. Price will trigger automatically.</p>
-        </div>
-    </div>
-
-    <!-- Modal: Visual AI Photo Scanner -->
-    <div id="visualModal" class="fixed inset-0 bg-black/95 z-50 hidden flex-col">
-        <div class="p-4 flex items-center justify-between bg-slate-900 border-b border-slate-800">
-            <h3 class="font-semibold text-blue-400 text-sm flex items-center gap-2">
-                <i class="fa-solid fa-camera"></i> Snap Photo / AI Recognition
-            </h3>
-            <button onclick="closeVisualScanner()" class="text-slate-400 hover:text-white p-1">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-        </div>
-        <div class="flex-1 flex flex-col justify-between p-4 max-w-md mx-auto w-full">
-            <div class="relative bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 flex-1 flex items-center justify-center min-h-[300px]">
-                <video id="cameraStream" class="w-full h-full object-cover hidden" autoplay playsinline></video>
-                <div id="cameraPlaceholder" class="text-center p-6 flex flex-col items-center gap-3">
-                    <i class="fa-solid fa-camera-retro text-4xl text-slate-600"></i>
-                    <p class="text-xs text-slate-400">Click below to start camera or select a photo of any shop product</p>
-                </div>
-            </div>
-
-            <div class="py-4 flex flex-col gap-2">
-                <button onclick="startCamera()" id="startCamBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-video"></i> Start Live Camera
-                </button>
-                <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFileUpload(event)">
-                <button onclick="document.getElementById('fileInput').click()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium py-2.5 rounded-xl text-sm border border-slate-700 transition-colors flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-upload"></i> Upload Product Image
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal: Product Details Result -->
+    <!-- Modal: Product Details -->
     <div id="productModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-end sm:items-center justify-center p-0 sm:p-4">
         <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-t-2xl sm:rounded-2xl p-5 shadow-2xl relative">
             <button onclick="closeProductModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white w-8 h-8 rounded-full bg-slate-700/50 flex items-center justify-center">
@@ -172,110 +97,108 @@
 
     <script>
         const inventory = [
-            { id: 1, name: "Atta 10kg", category: "flour", price: 100, offer: null, barcode: "8901001" },
-            { id: 2, name: "Atta 9kg", category: "flour", price: 90, offer: null, barcode: "8901002" },
-            { id: 3, name: "Atta 5kg", category: "flour", price: 70, offer: "$60 Special Offer", barcode: "8901003" },
-            { id: 4, name: "Atta 1kg", category: "flour", price: 15, offer: null, barcode: "8901004" },
-            { id: 5, name: "Rice 5kg", category: "flour", price: 85, offer: null, barcode: "8901005" },
-            { id: 6, name: "Sella Rice 1kg", category: "flour", price: 20, offer: null, barcode: "8901006" },
-            { id: 7, name: "Besan 1kg", category: "flour", price: 20, offer: null, barcode: "8901007" },
-            { id: 8, name: "Maida 1kg", category: "flour", price: 12, offer: null, barcode: "8901008" },
-            { id: 9, name: "Suji 1kg", category: "flour", price: 16, offer: null, barcode: "8901009" },
-            { id: 10, name: "Corn Flour 1kg", category: "flour", price: 16, offer: null, barcode: "8901010" },
-            { id: 11, name: "Dal Channa", category: "flour", price: 20, offer: null, barcode: "8901011" },
-            { id: 12, name: "Dal Moong", category: "flour", price: 20, offer: null, barcode: "8901012" },
-            { id: 13, name: "Dal Masoor (Pink)", category: "flour", price: 20, offer: null, barcode: "8901013" },
-            { id: 14, name: "Dal Masoor (Black)", category: "flour", price: 20, offer: null, barcode: "8901014" },
-            { id: 15, name: "Red Kidney Beans", category: "flour", price: 25, offer: null, barcode: "8901015" },
-            { id: 16, name: "Sookha Dhanya", category: "flour", price: 25, offer: null, barcode: "8901016" },
-            { id: 17, name: "Corn Oil 1.5L", category: "flour", price: 60, offer: null, barcode: "8901017" },
-            { id: 18, name: "Corn Oil 5L", category: "flour", price: 100, offer: null, barcode: "8901018" },
-            { id: 19, name: "Olive Oil 5L", category: "flour", price: 225, offer: null, barcode: "8901019" },
-            { id: 20, name: "Mustard Oil", category: "flour", price: 16, offer: null, barcode: "8901020" },
-            { id: 21, name: "Pickles", category: "flour", price: 25, offer: null, barcode: "8901021" },
-            { id: 22, name: "Desi Ghee", category: "flour", price: 65, offer: null, barcode: "8901022" },
-            { id: 23, name: "Masala (<500g)", category: "spices", price: 10, offer: "$8 / pc Offer", barcode: "8902001" },
-            { id: 24, name: "Masala (>500g)", category: "spices", price: 12, offer: null, barcode: "8902002" },
-            { id: 25, name: "Ajwain (Carom Seeds)", category: "spices", price: 10, offer: null, barcode: "8902003" },
-            { id: 26, name: "Black Pepper Whole", category: "spices", price: 15, offer: null, barcode: "8902004" },
-            { id: 27, name: "Long (Clove)", category: "spices", price: 10, offer: null, barcode: "8902005" },
-            { id: 28, name: "Imli", category: "spices", price: 10, offer: null, barcode: "8902006" },
-            { id: 29, name: "Zeera (Cumin Seeds)", category: "spices", price: 10, offer: null, barcode: "8902007" },
-            { id: 30, name: "Sauf (Fennel Seeds)", category: "spices", price: 10, offer: null, barcode: "8902008" },
-            { id: 31, name: "Garam Masala Whole 500g", category: "spices", price: 55, offer: null, barcode: "8902009" },
-            { id: 32, name: "Garam Masala Whole 100g", category: "spices", price: 12, offer: null, barcode: "8902010" },
-            { id: 33, name: "Dal Chini 50g", category: "spices", price: 10, offer: null, barcode: "8902011" },
-            { id: 34, name: "Green Cardamom (Ilaichi)", category: "spices", price: 25, offer: null, barcode: "8902012" },
-            { id: 35, name: "Shakkar", category: "spices", price: 16, offer: null, barcode: "8902013" },
-            { id: 36, name: "Gur", category: "spices", price: 16, offer: null, barcode: "8902014" },
-            { id: 37, name: "Sugar", category: "spices", price: 10, offer: null, barcode: "8902015" },
-            { id: 38, name: "Pink Salt", category: "spices", price: 20, offer: null, barcode: "8902016" },
-            { id: 39, name: "Pink Salt 300g", category: "spices", price: 30, offer: null, barcode: "8902017" },
-            { id: 40, name: "Ispaghol", category: "spices", price: 30, offer: null, barcode: "8902018" },
-            { id: 41, name: "Kalonji (Nigella Seeds) 100g", category: "spices", price: 10, offer: null, barcode: "8902019" },
-            { id: 42, name: "Mustard Seeds 100g", category: "spices", price: 10, offer: null, barcode: "8902020" },
-            { id: 43, name: "Methi Dana 100g", category: "spices", price: 12, offer: null, barcode: "8902021" },
-            { id: 44, name: "Red Chilli Flakes 100g", category: "spices", price: 12, offer: null, barcode: "8902022" },
-            { id: 45, name: "Dahi Phulki", category: "spices", price: 20, offer: "$30 for 2 pcs", barcode: "8902023" },
-            { id: 46, name: "Khus Khus Poppy Seed 100g", category: "spices", price: 20, offer: null, barcode: "8902024" },
-            { id: 47, name: "Mint Chutney", category: "spices", price: 15, offer: null, barcode: "8902025" },
-            { id: 48, name: "Mayonnaise", category: "spices", price: 20, offer: null, barcode: "8902026" },
-            { id: 49, name: "Basil Seed Drink", category: "snacks", price: 10, offer: "$15 for 2 pcs", barcode: "8903001" },
-            { id: 50, name: "Dutchlady Chocolate Milk", category: "snacks", price: 7, offer: null, barcode: "8903002" },
-            { id: 51, name: "Jan Fruit Drink", category: "snacks", price: 10, offer: null, barcode: "8903003" },
-            { id: 52, name: "Coconut Milk Drink", category: "snacks", price: 10, offer: "$8 Special", barcode: "8903004" },
-            { id: 53, name: "Malt Drink", category: "snacks", price: 10, offer: null, barcode: "8903005" },
-            { id: 54, name: "Dayao Drink", category: "snacks", price: 5, offer: null, barcode: "8903006" },
-            { id: 55, name: "Slanty", category: "snacks", price: 10, offer: "$30 for 4 pcs", barcode: "8903007" },
-            { id: 56, name: "Kurkure", category: "snacks", price: 10, offer: "$30 for 4 pcs", barcode: "8903008" },
-            { id: 57, name: "Nimko", category: "snacks", price: 10, offer: null, barcode: "8903009" },
-            { id: 58, name: "Bombay Supari", category: "snacks", price: 1, offer: null, barcode: "8903010" },
-            { id: 59, name: "Chilli Milli", category: "snacks", price: 1, offer: null, barcode: "8903011" },
-            { id: 60, name: "Donut", category: "snacks", price: 5, offer: "$15 for 4 pcs", barcode: "8903012" },
-            { id: 61, name: "Fudge Bar", category: "snacks", price: 4, offer: "$7 for 2 pcs", barcode: "8903013" },
-            { id: 62, name: "Candy", category: "snacks", price: 1, offer: null, barcode: "8903014" },
-            { id: 63, name: "Pipe Snack", category: "snacks", price: 10, offer: null, barcode: "8903015" },
-            { id: 64, name: "Roasted Channa", category: "snacks", price: 20, offer: null, barcode: "8903016" },
-            { id: 65, name: "Vermicelli", category: "snacks", price: 10, offer: null, barcode: "8903017" },
-            { id: 66, name: "Pheni", category: "snacks", price: 15, offer: null, barcode: "8903018" },
-            { id: 67, name: "Colorful Vermicelli", category: "snacks", price: 15, offer: null, barcode: "8903019" },
-            { id: 68, name: "Cocomo", category: "snacks", price: 1, offer: null, barcode: "8903020" },
-            { id: 69, name: "Cake Rusk", category: "snacks", price: 20, offer: null, barcode: "8903021" },
-            { id: 70, name: "Rusk", category: "snacks", price: 20, offer: null, barcode: "8903022" },
-            { id: 71, name: "Biscuits", category: "snacks", price: 5, offer: "$25 / Box", barcode: "8903023" },
-            { id: 72, name: "Dates 1kg", category: "snacks", price: 30, offer: null, barcode: "8903024" },
-            { id: 73, name: "Fresh Chicken", category: "frozen", price: 50, offer: "$140 for 3 pcs", barcode: "8904001" },
-            { id: 74, name: "Boneless Chicken", category: "frozen", price: 60, offer: "$100 for 2 pcs", barcode: "8904002" },
-            { id: 75, name: "Minced Chicken", category: "frozen", price: 30, offer: null, barcode: "8904003" },
-            { id: 76, name: "Minced Beef", category: "frozen", price: 50, offer: null, barcode: "8904004" },
-            { id: 77, name: "CP Mid Wings", category: "frozen", price: 95, offer: null, barcode: "8904005" },
-            { id: 78, name: "Chicken Nuggets 2.5kg", category: "frozen", price: 85, offer: null, barcode: "8904006" },
-            { id: 79, name: "Chicken Nuggets 1kg", category: "frozen", price: 55, offer: "$100 for 2 pcs", barcode: "8904007" },
-            { id: 80, name: "Chicken Tenders", category: "frozen", price: 65, offer: null, barcode: "8904008" },
-            { id: 81, name: "Spicy Crispy Patty (Katsu)", category: "frozen", price: 85, offer: null, barcode: "8904009" },
-            { id: 82, name: "Paratha", category: "frozen", price: 18, offer: "$30 for 2 pcs", barcode: "8904010" },
-            { id: 83, name: "Mega Paratha", category: "frozen", price: 30, offer: null, barcode: "8904011" },
-            { id: 84, name: "Chicken Paratha", category: "frozen", price: 20, offer: null, barcode: "8904012" },
-            { id: 85, name: "Matka Ice Cream", category: "frozen", price: 45, offer: null, barcode: "8904013" },
-            { id: 86, name: "Jan Mozzarella Cheese 2kg", category: "frozen", price: 135, offer: null, barcode: "8904014" },
-            { id: 87, name: "Tortilla Wrap", category: "frozen", price: 30, offer: "$50 for 2 pcs", barcode: "8904015" },
-            { id: 88, name: "Seekh Kebab", category: "frozen", price: 50, offer: "$90 for 2 pcs", barcode: "8904016" },
-            { id: 89, name: "Shami Kebab", category: "frozen", price: 50, offer: "$90 for 2 pcs", barcode: "8904017" },
-            { id: 90, name: "Tapal Danedar Tea", category: "frozen", price: 45, offer: "$80 for 2 pcs", barcode: "8904018" },
-            { id: 91, name: "Tapal Green Tea", category: "frozen", price: 25, offer: "$40 for 2 pcs", barcode: "8904019" },
-            { id: 92, name: "Dutchlady Milk", category: "frozen", price: 18, offer: "$190 / Carton", barcode: "8904020" },
-            { id: 93, name: "Jan Dairy Milk", category: "frozen", price: 12, offer: "$130 / Carton", barcode: "8904021" },
-            { id: 94, name: "Pure Milk", category: "frozen", price: 12, offer: "$130 / Carton", barcode: "8904022" },
-            { id: 95, name: "Dairy Farm Milk", category: "frozen", price: 150, offer: null, barcode: "8904023" },
-            { id: 96, name: "Fresh Milk", category: "frozen", price: 20, offer: null, barcode: "8904024" }
+            { id: 1, name: "Atta 10kg", category: "flour", price: 100, offer: null },
+            { id: 2, name: "Atta 9kg", category: "flour", price: 90, offer: null },
+            { id: 3, name: "Atta 5kg", category: "flour", price: 70, offer: "$60 Special Offer" },
+            { id: 4, name: "Atta 1kg", category: "flour", price: 15, offer: null },
+            { id: 5, name: "Rice 5kg (Falak)", category: "flour", price: 85, offer: null },
+            { id: 6, name: "Sella Rice 1kg", category: "flour", price: 20, offer: null },
+            { id: 7, name: "Besan 1kg", category: "flour", price: 20, offer: null },
+            { id: 8, name: "Maida 1kg", category: "flour", price: 12, offer: null },
+            { id: 9, name: "Suji 1kg", category: "flour", price: 16, offer: null },
+            { id: 10, name: "Corn Flour 1kg", category: "flour", price: 16, offer: null },
+            { id: 11, name: "Dal Channa", category: "flour", price: 20, offer: null },
+            { id: 12, name: "Dal Moong", category: "flour", price: 20, offer: null },
+            { id: 13, name: "Dal Masoor (Pink)", category: "flour", price: 20, offer: null },
+            { id: 14, name: "Dal Masoor (Black)", category: "flour", price: 20, offer: null },
+            { id: 15, name: "Red Kidney Beans", category: "flour", price: 25, offer: null },
+            { id: 16, name: "Sookha Dhanya", category: "flour", price: 25, offer: null },
+            { id: 17, name: "Corn Oil 1.5L", category: "flour", price: 60, offer: null },
+            { id: 18, name: "Corn Oil 5L", category: "flour", price: 100, offer: null },
+            { id: 19, name: "Olive Oil 5L", category: "flour", price: 225, offer: null },
+            { id: 20, name: "Mustard Oil", category: "flour", price: 16, offer: null },
+            { id: 21, name: "Pickles", category: "flour", price: 25, offer: null },
+            { id: 22, name: "Desi Ghee", category: "flour", price: 65, offer: null },
+            { id: 23, name: "Masala (<500g)", category: "spices", price: 10, offer: "$8 / pc Offer" },
+            { id: 24, name: "Masala (>500g)", category: "spices", price: 12, offer: null },
+            { id: 25, name: "Ajwain (Carom Seeds)", category: "spices", price: 10, offer: null },
+            { id: 26, name: "Black Pepper Whole", category: "spices", price: 15, offer: null },
+            { id: 27, name: "Long (Clove)", category: "spices", price: 10, offer: null },
+            { id: 28, name: "Imli", category: "spices", price: 10, offer: null },
+            { id: 29, name: "Zeera (Cumin Seeds)", category: "spices", price: 10, offer: null },
+            { id: 30, name: "Sauf (Fennel Seeds)", category: "spices", price: 10, offer: null },
+            { id: 31, name: "Garam Masala Whole 500g", category: "spices", price: 55, offer: null },
+            { id: 32, name: "Garam Masala Whole 100g", category: "spices", price: 12, offer: null },
+            { id: 33, name: "Dal Chini 50g", category: "spices", price: 10, offer: null },
+            { id: 34, name: "Green Cardamom (Ilaichi)", category: "spices", price: 25, offer: null },
+            { id: 35, name: "Shakkar", category: "spices", price: 16, offer: null },
+            { id: 36, name: "Gur", category: "spices", price: 16, offer: null },
+            { id: 37, name: "Sugar", category: "spices", price: 10, offer: null },
+            { id: 38, name: "Pink Salt", category: "spices", price: 20, offer: null },
+            { id: 39, name: "Pink Salt 300g", category: "spices", price: 30, offer: null },
+            { id: 40, name: "Ispaghol", category: "spices", price: 30, offer: null },
+            { id: 41, name: "Kalonji (Nigella Seeds) 100g", category: "spices", price: 10, offer: null },
+            { id: 42, name: "Mustard Seeds 100g", category: "spices", price: 10, offer: null },
+            { id: 43, name: "Methi Dana 100g", category: "spices", price: 12, offer: null },
+            { id: 44, name: "Red Chilli Flakes 100g", category: "spices", price: 12, offer: null },
+            { id: 45, name: "Dahi Phulki", category: "spices", price: 20, offer: "$30 for 2 pcs" },
+            { id: 46, name: "Khus Khus Poppy Seed 100g", category: "spices", price: 20, offer: null },
+            { id: 47, name: "Mint Chutney", category: "spices", price: 15, offer: null },
+            { id: 48, name: "Mayonnaise", category: "spices", price: 20, offer: null },
+            { id: 49, name: "Basil Seed Drink", category: "snacks", price: 10, offer: "$15 for 2 pcs" },
+            { id: 50, name: "Dutchlady Chocolate Milk", category: "snacks", price: 7, offer: null },
+            { id: 51, name: "Jan Fruit Drink", category: "snacks", price: 10, offer: null },
+            { id: 52, name: "Coconut Milk Drink", category: "snacks", price: 10, offer: "$8 Special" },
+            { id: 53, name: "Malt Drink", category: "snacks", price: 10, offer: null },
+            { id: 54, name: "Dayao Drink", category: "snacks", price: 5, offer: null },
+            { id: 55, name: "Slanty", category: "snacks", price: 10, offer: "$30 for 4 pcs" },
+            { id: 56, name: "Kurkure", category: "snacks", price: 10, offer: "$30 for 4 pcs" },
+            { id: 57, name: "Nimko", category: "snacks", price: 10, offer: null },
+            { id: 58, name: "Bombay Supari", category: "snacks", price: 1, offer: null },
+            { id: 59, name: "Chilli Milli", category: "snacks", price: 1, offer: null },
+            { id: 60, name: "Donut", category: "snacks", price: 5, offer: "$15 for 4 pcs" },
+            { id: 61, name: "Fudge Bar", category: "snacks", price: 4, offer: "$7 for 2 pcs" },
+            { id: 62, name: "Candy", category: "snacks", price: 1, offer: null },
+            { id: 63, name: "Pipe Snack", category: "snacks", price: 10, offer: null },
+            { id: 64, name: "Roasted Channa", category: "snacks", price: 20, offer: null },
+            { id: 65, name: "Vermicelli", category: "snacks", price: 10, offer: null },
+            { id: 66, name: "Pheni", category: "snacks", price: 15, offer: null },
+            { id: 67, name: "Colorful Vermicelli", category: "snacks", price: 15, offer: null },
+            { id: 68, name: "Cocomo", category: "snacks", price: 1, offer: null },
+            { id: 69, name: "Cake Rusk", category: "snacks", price: 20, offer: null },
+            { id: 70, name: "Rusk", category: "snacks", price: 20, offer: null },
+            { id: 71, name: "Biscuits", category: "snacks", price: 5, offer: "$25 / Box" },
+            { id: 72, name: "Dates 1kg", category: "snacks", price: 30, offer: null },
+            { id: 73, name: "Fresh Chicken", category: "frozen", price: 50, offer: "$140 for 3 pcs" },
+            { id: 74, name: "Boneless Chicken", category: "frozen", price: 60, offer: "$100 for 2 pcs" },
+            { id: 75, name: "Minced Chicken", category: "frozen", price: 30, offer: null },
+            { id: 76, name: "Minced Beef", category: "frozen", price: 50, offer: null },
+            { id: 77, name: "CP Mid Wings", category: "frozen", price: 95, offer: null },
+            { id: 78, name: "Chicken Nuggets 2.5kg", category: "frozen", price: 85, offer: null },
+            { id: 79, name: "Chicken Nuggets 1kg", category: "frozen", price: 55, offer: "$100 for 2 pcs" },
+            { id: 80, name: "Chicken Tenders", category: "frozen", price: 65, offer: null },
+            { id: 81, name: "Spicy Crispy Patty (Katsu)", category: "frozen", price: 85, offer: null },
+            { id: 82, name: "Paratha", category: "frozen", price: 18, offer: "$30 for 2 pcs" },
+            { id: 83, name: "Mega Paratha", category: "frozen", price: 30, offer: null },
+            { id: 84, name: "Chicken Paratha", category: "frozen", price: 20, offer: null },
+            { id: 85, name: "Matka Ice Cream", category: "frozen", price: 45, offer: null },
+            { id: 86, name: "Jan Mozzarella Cheese 2kg", category: "frozen", price: 135, offer: null },
+            { id: 87, name: "Tortilla Wrap", category: "frozen", price: 30, offer: "$50 for 2 pcs" },
+            { id: 88, name: "Seekh Kebab", category: "frozen", price: 50, offer: "$90 for 2 pcs" },
+            { id: 89, name: "Shami Kebab", category: "frozen", price: 50, offer: "$90 for 2 pcs" },
+            { id: 90, name: "Tapal Danedar Tea", category: "frozen", price: 45, offer: "$80 for 2 pcs" },
+            { id: 91, name: "Tapal Green Tea", category: "frozen", price: 25, offer: "$40 for 2 pcs" },
+            { id: 92, name: "Dutchlady Milk", category: "frozen", price: 18, offer: "$190 / Carton" },
+            { id: 93, name: "Jan Dairy Milk", category: "frozen", price: 12, offer: "$130 / Carton" },
+            { id: 94, name: "Pure Milk", category: "frozen", price: 12, offer: "$130 / Carton" },
+            { id: 95, name: "Dairy Farm Milk", category: "frozen", price: 150, offer: null },
+            { id: 96, name: "Fresh Milk", category: "frozen", price: 20, offer: null }
         ];
 
         let currentCategory = 'all';
         let searchQuery = '';
 
-        document.addEventListener('DOMContentLoaded', () => {
-            renderList();
-        });
+        document.addEventListener('DOMContentLoaded', () => { renderList(); });
 
         function renderList() {
             const container = document.getElementById('itemList');
@@ -379,103 +302,6 @@
         function closeProductModal() {
             document.getElementById('productModal').classList.add('hidden');
             document.getElementById('productModal').classList.remove('flex');
-        }
-
-        function openBarcodeScanner() {
-            document.getElementById('barcodeModal').classList.remove('hidden');
-            document.getElementById('barcodeModal').classList.add('flex');
-
-            Quagga.init({
-                inputStream: {
-                    name: "Live",
-                    type: "LiveStream",
-                    target: document.querySelector('#interactive'),
-                    constraints: { facingMode: "environment" }
-                },
-                decoder: { readers: ["code_128_reader", "ean_reader", "ean_8_reader", "upc_reader"] }
-            }, function(err) {
-                if (err) {
-                    alert("Could not access camera for barcode scanning.");
-                    closeBarcodeScanner();
-                    return;
-                }
-                Quagga.start();
-            });
-
-            Quagga.onDetected(onBarcodeDetected);
-        }
-
-        function onBarcodeDetected(result) {
-            const code = result.codeResult.code;
-            Quagga.stop();
-            closeBarcodeScanner();
-            const matched = inventory.find(i => i.barcode === code) || inventory[Math.floor(Math.random() * inventory.length)];
-            showProductModal(matched);
-        }
-
-        function closeBarcodeScanner() {
-            try { Quagga.stop(); } catch(e){}
-            document.getElementById('barcodeModal').classList.add('hidden');
-            document.getElementById('barcodeModal').classList.remove('flex');
-        }
-
-        let mediaStream = null;
-
-        function openVisualScanner() {
-            document.getElementById('visualModal').classList.remove('hidden');
-            document.getElementById('visualModal').classList.add('flex');
-        }
-
-        function closeVisualScanner() {
-            stopCamera();
-            document.getElementById('visualModal').classList.add('hidden');
-            document.getElementById('visualModal').classList.remove('flex');
-        }
-
-        async function startCamera() {
-            try {
-                mediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-                const video = document.getElementById('cameraStream');
-                video.srcObject = mediaStream;
-                video.classList.remove('hidden');
-                document.getElementById('cameraPlaceholder').classList.add('hidden');
-
-                const btn = document.getElementById('startCamBtn');
-                btn.innerHTML = `<i class="fa-solid fa-camera"></i> Capture & Identify Price`;
-                btn.onclick = captureAndAnalyze;
-            } catch(e) {
-                alert("Camera access was denied or not available.");
-            }
-        }
-
-        function stopCamera() {
-            if (mediaStream) {
-                mediaStream.getTracks().forEach(track => track.stop());
-                mediaStream = null;
-            }
-            const video = document.getElementById('cameraStream');
-            video.classList.add('hidden');
-            document.getElementById('cameraPlaceholder').classList.remove('hidden');
-
-            const btn = document.getElementById('startCamBtn');
-            btn.innerHTML = `<i class="fa-solid fa-video"></i> Start Live Camera`;
-            btn.onclick = startCamera;
-        }
-
-        function captureAndAnalyze() {
-            stopCamera();
-            closeVisualScanner();
-            const randomItem = inventory[Math.floor(Math.random() * inventory.length)];
-            showProductModal(randomItem);
-        }
-
-        function handleFileUpload(e) {
-            const file = e.target.files[0];
-            if (file) {
-                closeVisualScanner();
-                const randomItem = inventory[Math.floor(Math.random() * inventory.length)];
-                showProductModal(randomItem);
-            }
         }
     </script>
 </body>
