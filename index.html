@@ -64,7 +64,7 @@
             <div class="flex items-center gap-2.5 text-xs text-emerald-300">
                 <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
                 <div>
-                    <p class="font-semibold text-emerald-200">Student Pricing Active</p>
+                    <p class="font-semibold text-emerald-200">HK Student Pricing Active</p>
                     <p class="text-[10px] text-emerald-400/80">Special discounts applied to eligible items</p>
                 </div>
             </div>
@@ -172,17 +172,18 @@
         <div class="card-madrassa border-slate-700 w-full max-w-sm rounded-2xl p-6 shadow-2xl space-y-4">
             <div class="flex items-center justify-between">
                 <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
-                    <i class="fa-solid fa-graduation-cap text-sky-400"></i> Student Login
+                    <i class="fa-solid fa-graduation-cap text-sky-400"></i> HK Student Verification
                 </h3>
                 <button onclick="closeStudentLoginModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <p class="text-xs text-slate-400 leading-relaxed">
-                Enter your student school email to unlock special student pricing on eligible items instantly.
+                Enter your Hong Kong school email (ending in <span class="text-sky-300 font-semibold">.edu.hk</span> or school domain) to unlock special student pricing instantly.
             </p>
-            <input type="email" id="studentEmailInput" placeholder="student@taiwaimadrassa.edu" 
+            <input type="email" id="studentEmailInput" placeholder="student@school.edu.hk" 
                    class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-sky-500">
+            <p id="emailErrorMsg" class="hidden text-[11px] text-rose-400 font-medium"></p>
             <button onclick="submitStudentLogin()" class="w-full bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold py-2.5 rounded-xl transition-colors shadow-md">
-                Verify & Unlock Student Prices
+                Verify HK Student Status
             </button>
         </div>
     </div>
@@ -312,7 +313,7 @@
             { id: 93, name: "Jan Dairy Milk", category: "frozen", price: 12, studentPrice: 12, offer: "$130 / Carton" },
             { id: 94, name: "Pure Milk", category: "frozen", price: 12, studentPrice: 12, offer: "$130 / Carton" },
             { id: 95, name: "Dairy Farm Milk", category: "frozen", price: 150, studentPrice: 145, offer: null },
-            { id: 96, name: "Fresh Milk", category: "frozen", price: 20, studentPrice: 20, offer: null } // Protected low-margin (buying 18.5, selling 20)
+            { id: 96, name: "Fresh Milk", category: "frozen", price: 20, studentPrice: 20, offer: null } // Protected low-margin
         ];
 
         let currentCategory = 'all';
@@ -387,6 +388,7 @@
 
         function openStudentLoginModal() {
             if (isStudentLoggedIn) return;
+            document.getElementById('emailErrorMsg').classList.add('hidden');
             document.getElementById('studentLoginModal').classList.remove('hidden');
             document.getElementById('studentLoginModal').classList.add('flex');
         }
@@ -397,16 +399,22 @@
         }
 
         function submitStudentLogin() {
-            const emailInput = document.getElementById('studentEmailInput').value.trim();
-            if (emailInput.length > 3) {
+            const emailInput = document.getElementById('studentEmailInput').value.trim().toLowerCase();
+            const errorMsg = document.getElementById('emailErrorMsg');
+
+            // HK Student Email validation (.edu.hk or .hk school domains)
+            const isHKStudentEmail = emailInput.endsWith('.edu.hk') || emailInput.endsWith('.hk') || emailInput.includes('school');
+
+            if (emailInput.includes('@') && isHKStudentEmail) {
                 isStudentLoggedIn = true;
                 closeStudentLoginModal();
                 document.getElementById('studentActiveBanner').classList.remove('hidden');
-                document.getElementById('loginBtnText').innerText = 'Student Mode Active';
+                document.getElementById('loginBtnText').innerText = 'HK Student Active';
                 document.getElementById('studentStatusBtn').classList.add('bg-emerald-500/20', 'border-emerald-500/40', 'text-emerald-300');
                 renderList();
             } else {
-                alert("Please enter a valid school email.");
+                errorMsg.innerText = "Please enter a valid Hong Kong school email ending in .edu.hk";
+                errorMsg.classList.remove('hidden');
             }
         }
 
