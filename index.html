@@ -45,10 +45,11 @@
                     <i class="fa-solid fa-mosque"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold base text-sky-200 leading-tight">Tai Wai Madrassa Shop</h1>
+                    <h1 class="font-bold text-base text-sky-200 leading-tight">Tai Wai Madrassa Shop</h1>
                     <p class="text-[11px] text-slate-400">Official Mosque & Community Catalog</p>
                 </div>
             </div>
+            <!-- STUDENT LOGIN BUTTON -->
             <button onclick="openStudentLoginModal()" id="studentStatusBtn" class="bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 text-xs px-3 py-1.5 rounded-xl border border-sky-500/30 font-medium transition-all flex items-center gap-1.5">
                 <i class="fa-solid fa-graduation-cap"></i> <span id="loginBtnText">Student Login</span>
             </button>
@@ -58,7 +59,7 @@
     <!-- Main Container -->
     <main class="flex-1 max-w-md w-full mx-auto p-4 flex flex-col gap-4">
 
-        <!-- Student Active Notice (Hidden by default) -->
+        <!-- Student Active Notice (Hidden by default, shows after login) -->
         <div id="studentActiveBanner" class="hidden bg-emerald-950/60 border border-emerald-500/40 rounded-2xl p-3 flex items-center justify-between shadow-md">
             <div class="flex items-center gap-2.5 text-xs text-emerald-300">
                 <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
@@ -252,7 +253,7 @@
             { id: 34, name: "Green Cardamom (Ilaichi)", category: "spices", price: 25, studentPrice: 22, offer: null },
             { id: 35, name: "Shakkar", category: "spices", price: 16, studentPrice: 14, offer: null },
             { id: 36, name: "Gur", category: "spices", price: 16, studentPrice: 14, offer: null },
-            { id: 37, name: "Sugar", category: "spices", price: 10, studentPrice: 10, offer: null }, // Protected low-margin
+            { id: 37, name: "Sugar", category: "spices", price: 10, studentPrice: 10, offer: null },
             { id: 38, name: "Pink Salt", category: "spices", price: 20, studentPrice: 18, offer: null },
             { id: 39, name: "Pink Salt 300g", category: "spices", price: 30, studentPrice: 27, offer: null },
             { id: 40, name: "Ispaghol", category: "spices", price: 30, studentPrice: 27, offer: null },
@@ -307,11 +308,11 @@
             { id: 89, name: "Shami Kebab", category: "frozen", price: 50, studentPrice: 45, offer: "$90 for 2 pcs" },
             { id: 90, name: "Tapal Danedar Tea", category: "frozen", price: 45, studentPrice: 40, offer: "$80 for 2 pcs" },
             { id: 91, name: "Tapal Green Tea", category: "frozen", price: 25, studentPrice: 22, offer: "$40 for 2 pcs" },
-            { id: 92, name: "Dutchlady Milk", category: "frozen", price: 18, studentPrice: 18, offer: "$190 / Carton" }, // Protected low margin
-            { id: 93, name: "Jan Dairy Milk", category: "frozen", price: 12, studentPrice: 12, offer: "$130 / Carton" }, // Protected low margin
-            { id: 94, name: "Pure Milk", category: "frozen", price: 12, studentPrice: 12, offer: "$130 / Carton" }, // Protected low margin
+            { id: 92, name: "Dutchlady Milk", category: "frozen", price: 18, studentPrice: 18, offer: "$190 / Carton" },
+            { id: 93, name: "Jan Dairy Milk", category: "frozen", price: 12, studentPrice: 12, offer: "$130 / Carton" },
+            { id: 94, name: "Pure Milk", category: "frozen", price: 12, studentPrice: 12, offer: "$130 / Carton" },
             { id: 95, name: "Dairy Farm Milk", category: "frozen", price: 150, studentPrice: 145, offer: null },
-            { id: 96, name: "Fresh Milk", category: "frozen", price: 20, studentPrice: 20, offer: null } // Protected low margin (buying 18.5, selling 20)
+            { id: 96, name: "Fresh Milk", category: "frozen", price: 20, studentPrice: 20, offer: null } // Protected low-margin (buying 18.5, selling 20)
         ];
 
         let currentCategory = 'all';
